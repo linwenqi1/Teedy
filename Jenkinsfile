@@ -23,12 +23,12 @@ pipeline {
         }
         stage('JaCoCo') {
             steps {
-                sh 'mvn javadoc:javadoc -DfailOnError=false -DadditionalJOption=-Xdoclint:none'
+                sh 'mvn jacoco:report'
             }
         }
         stage('Javadoc') {
             steps {
-                sh 'mvn javadoc:javadoc'
+                sh 'mvn javadoc:javadoc -DfailOnError=false -DadditionalJOption=-Xdoclint:none'
             }
         }
         stage('Site') {

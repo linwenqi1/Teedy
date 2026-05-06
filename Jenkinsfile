@@ -33,6 +33,7 @@ pipeline {
         }
         stage('Site') {
             steps {
+                sh 'mvn site:site -DskipTests'
                 sh 'mvn site:deploy'
             }
         }

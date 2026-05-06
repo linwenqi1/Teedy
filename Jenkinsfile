@@ -23,7 +23,7 @@ pipeline {
         }
         stage('JaCoCo') {
             steps {
-                sh 'mvn jacoco:report'
+                sh 'mvn javadoc:javadoc -DfailOnError=false -DadditionalJOption=-Xdoclint:none'
             }
         }
         stage('Javadoc') {

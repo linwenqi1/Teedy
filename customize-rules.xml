@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Custom Ruleset"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 
+         https://pmd.github.io/pmd-6.0.0/ruleset_xml_schema.xsd">
+
+    <description>Custom metrics rules</description>
+
+    <!-- LoC -->
+    <rule ref="category/java/design.xml/NcssCount"/>
+    <rule ref="category/java/design.xml/NPathComplexity"/>
+
+    <!-- Cyclomatic Complexity -->
+    <rule ref="category/java/design.xml/CyclomaticComplexity"/>
+
+    <!-- WMC -->
+    <rule ref="category/java/design.xml/ExcessivePublicCount"/>
+
+    <!-- CBO -->
+    <rule ref="category/java/design.xml/CouplingBetweenObjects"/>
+
+    <!-- LCOM -->
+    <rule ref="category/java/design.xml/GodClass"/>
+</ruleset>

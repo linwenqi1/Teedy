@@ -106,6 +106,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${org.apache.maven.plugins.maven-surefire-plugin.version}</version>
         <configuration>
+          <argLine>@{argLine} -Xmx1024m</argLine>
           <forkCount>1</forkCount>
           <reuseForks>false</reuseForks>
         </configuration>
@@ -116,9 +117,112 @@
         <artifactId>jetty-maven-plugin</artifactId>
         <version>${org.eclipse.jetty.jetty-maven-plugin.version}</version>
       </plugin>
+      <!-- 增加 maven-site-plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.12.1</version>
+      </plugin>
+      
+      <!-- 增加 maven-project-info-reports-plugin 防止默认版本导致报错 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>3.4.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.21.2</version>
+        <configuration>
+          <rulesets>
+            <ruleset>customize-rules.xml</ruleset>
+          </rulesets>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.10</version>
+        <executions>
+          <!-- 在测试阶段启动覆盖率收集 -->
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+                <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <!-- 在测试完成后生成报告 -->
+          <execution>
+            <id>report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-report-plugin</artifactId>
+          <version>3.0.0</version>
+          <reportSets>
+            <reportSet>
+            <id>aggregate</id>
+            <inherited>false</inherited>
+            <reports>
+              <report>report</report>
+            </reports>
+            <configuration>
+              <aggregate>true</aggregate> <!-- 多模块聚合报告 -->
+            </configuration>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.10</version>
+        <reportSets> 
+          <reportSet> 
+            <id>aggregate</id> 
+            <inherited>false</inherited> 
+            <reports> 
+              <report>report-aggregate</report> 
+            </reports> 
+          </reportSet> 
+        </reportSets> 
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>3.4.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.21.2</version>
+        <configuration>
+          <rulesets>
+            <ruleset>customize-rules.xml</ruleset>
+          </rulesets>
+        </configuration>
+      </plugin>
+    </plugins>
+    
+  </reporting>
+  <distributionManagement>
+    <site>
+      <id>local-site</id>
+      <url>file://${project.basedir}/target/deploy-site</url>
+    </site>
+  </distributionManagement>
   <modules>
     <module>docs-core</module>
     <module>docs-web-common</module>

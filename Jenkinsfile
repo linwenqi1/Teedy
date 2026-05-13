@@ -75,7 +75,7 @@ pipeline {
             steps {
                 script {
                     // 登录 Docker Hub 并推送镜像
-                    docker.withRegistry('https://registry.hub.docker.com', 'DOCKER_HUB_CREDENTIALS') {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
                         docker.image("${env.DOCKER_IMAGE}:${env.DOCKER_TAG}").push()
                         // 可选：打 latest 标签并推送
                         docker.image("${env.DOCKER_IMAGE}:${env.DOCKER_TAG}").push('latest')
